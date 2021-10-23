@@ -1,5 +1,10 @@
 .PHONY: all
+.PHONY: clean
 all: afktest
+
+clean:
+	rm -f *.o
+	rm -f afktest
 
 afktest: main.o network.o packet.o srp.o mini-gmp.o sha256.o
 	g++ $^ -o $@
@@ -17,7 +22,7 @@ srp.o: srp.cpp srp.h mini-gmp.h
 	g++ -c $< -o $@
 
 mini-gmp.o: mini-gmp.c mini-gmp.h
-	g++ -c $< -o $@
+	gcc -c $< -o $@
 
 sha256.o: sha256.c sha2.h md32_common.h
-	g++ -c $< -o $@
+	gcc -c $< -o $@
