@@ -82,7 +82,7 @@ int CreateClient(char* address, char* port) {
 	}
 
 	struct timeval timeout;
-	timeout.tv_sec = 10;
+	timeout.tv_sec = 30;
 	timeout.tv_usec = 0;
 
 	setsockopt(sockfd, SOL_SOCKET, SO_RCVTIMEO, &timeout, sizeof(timeout));
@@ -147,8 +147,10 @@ int Recv(NetworkPacket &pkt) {
 
 	while (len == 0)
 		len = recv(sockfd, buf, 512, 0);
-	if (len < 0)
+	if (len < 0) {
+		printf("%04X\n", errno);
 		return 1;
+	}
 
 	bool success = pkt.set_data(buf, len);
 
