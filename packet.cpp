@@ -20,7 +20,7 @@ HIGHLY MODIFIED FROM THE ORIGINAL CODE
 */
 
 
-#include <string.h>
+#include <cstring>
 
 #include "packet.h"
 

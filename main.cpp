@@ -19,6 +19,7 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 HIGHLY MODIFIED FROM THE ORIGINAL CODE
 */
 
+//#include <string>
 #include <cstring>
 #include <unistd.h>
 
