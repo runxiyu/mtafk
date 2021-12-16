@@ -26,7 +26,6 @@ HIGHLY MODIFIED FROM THE ORIGINAL CODE
 #include <sys/types.h>
 #include <netinet/in.h>
 #include <sys/socket.h>
-#include <sys/epoll.h>
 #include <unistd.h>
 
 #include "network.h"
