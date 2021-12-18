@@ -34,7 +34,7 @@ int main(int argc, char** argv) {
 		exit(1);
 	}
 
-	int port;
+	uint16_t port;
 	success = sscanf(argv[2], "%hd", &port);
 
 	if (success != 1) {
@@ -118,7 +118,7 @@ int main(int argc, char** argv) {
 						break;
 					case CONTROLTYPE_SET_PEER_ID:
 						pkt >> m_peer_id;
-						printf("Peer ID: %hp\n", m_peer_id);
+						printf("Peer ID: 0x%04hX\n", m_peer_id);
 						break;
 					case CONTROLTYPE_PING:
 						break;
@@ -196,7 +196,7 @@ int main(int argc, char** argv) {
 						break;
 					case CONTROLTYPE_SET_PEER_ID:
 						pkt >> m_peer_id;
-						printf("Peer ID: %hp\n", m_peer_id);
+						printf("Peer ID: 0x%04hX\n", m_peer_id);
 						break;
 					case CONTROLTYPE_PING: // sometimes it doesnt answer, if they ping us we'll resend, will redo it properly eventually
 						pkt.reset();
@@ -231,7 +231,7 @@ int main(int argc, char** argv) {
 						if (!(auth_methods & AUTH_MECHANISM_SRP) || server_ser_ver < MIN_SER_VER || dep_net_comp_mode != NETPROTO_COMPRESSION_MODE || dep_prot_ver < MIN_PROTOCOL_VERSION)
 						{
 							Disconnect();
-							printf("Error: Server or auth methods not supported!\nServer version: %hhp\nAuth methods: %p\n", server_ser_ver, auth_methods);
+							printf("Error: Server or auth methods not supported!\nServer version: 0x%02hhX\nAuth methods: 0x%08X\n", server_ser_ver, auth_methods);
 							return 2;
 						}
 						next = true;
@@ -329,7 +329,7 @@ int main(int argc, char** argv) {
 						break;
 					case CONTROLTYPE_SET_PEER_ID:
 						pkt >> m_peer_id;
-						printf("Peer ID: %hp\n", m_peer_id);
+						printf("Peer ID: 0x%04hX\n", m_peer_id);
 						break;
 					case CONTROLTYPE_PING: // sometimes it doesnt answer, if they ping us we'll resend, will redo it properly eventually
 						pkt.reset();
@@ -434,7 +434,7 @@ int main(int argc, char** argv) {
 						break;
 					case CONTROLTYPE_SET_PEER_ID:
 						pkt >> m_peer_id;
-						printf("Peer ID: %hp\n", m_peer_id);
+						printf("Peer ID: 0x%04hX\n", m_peer_id);
 						break;
 					case CONTROLTYPE_PING:
 						break;
@@ -524,7 +524,7 @@ int main(int argc, char** argv) {
 						break;
 					case CONTROLTYPE_SET_PEER_ID:
 						pkt >> m_peer_id;
-						printf("Peer ID: %hp\n", m_peer_id);
+						printf("Peer ID: 0x%04hX\n", m_peer_id);
 						break;
 					case CONTROLTYPE_PING:
 						break;

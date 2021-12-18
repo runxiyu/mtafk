@@ -3,8 +3,8 @@
 all: afktest
 
 clean:
-	$(RM) *.o
-	$(RM) afktest
+	rm -f *.o
+	rm -f afktest
 
 afktest: main.o network.o packet.o srp.o mini-gmp.o sha256.o
 	$(CXX) -O3 main.o network.o packet.o srp.o mini-gmp.o sha256.o -o $@
