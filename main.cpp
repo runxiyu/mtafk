@@ -24,6 +24,7 @@ HIGHLY MODIFIED FROM THE ORIGINAL CODE
 #include <unistd.h>
 
 #include "network.h"
+#include "packet.h"
 #include "srp.h"
 
 int main(int argc, char** argv) {

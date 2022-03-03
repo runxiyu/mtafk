@@ -19,6 +19,7 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 HIGHLY MODIFIED FROM THE ORIGINAL CODE
 */
 
+#pragma once
 
 #include <string>
 #include <arpa/inet.h>
