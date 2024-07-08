@@ -3,13 +3,13 @@
 
 CFLAGS = -Ofast -Wall -Wextra -pedantic
 
-all: afktest
+all: mtafk
 
 clean:
 	rm -f *.o
-	rm -f afktest
+	rm -f mtafk
 
-afktest: main.o network.o packet.o srp.o mini-gmp.o sha256.o
+mtafk: main.o network.o packet.o srp.o mini-gmp.o sha256.o
 	$(CXX) $(CFLAGS) $^ -o $@
 
 main.o: main.cpp network.h packet.h srp.h
