@@ -25,7 +25,7 @@ HIGHLY MODIFIED FROM THE ORIGINAL CODE
 
 #define PROTOCOL_ID 0x4f457403
 #define PROTOCOL_VERSION 40
-#define MIN_PROTOCOL_VERSION 37 // Will attempt to reduce this number eventually
+#define MIN_PROTOCOL_VERSION 37	// Will attempt to reduce this number eventually
 #define NETPROTO_COMPRESSION_MODE 0
 
 #define BASE_HEADER_SIZE 7
@@ -51,12 +51,11 @@ HIGHLY MODIFIED FROM THE ORIGINAL CODE
 #define SEQNUM_INITIAL 65500
 
 #define SER_VER 28
-#define MIN_SER_VER 0 // to be updated
+#define MIN_SER_VER 0		// to be updated
 
 extern uint16_t m_peer_id;
 
-enum ToClient
-{
+enum ToClient {
 	TOCLIENT_HELLO = 0x02,
 	TOCLIENT_AUTH_ACCEPT = 0x03,
 	TOCLIENT_ACCEPT_SUDO_MODE = 0x04,
@@ -127,8 +126,7 @@ enum ToClient
 	TOCLIENT_NUM_MSG_TYPES = 0x63,
 };
 
-enum ToServer
-{
+enum ToServer {
 	TOSERVER_INIT = 0x02,
 	TOSERVER_INIT_LEGACY = 0x10,
 	TOSERVER_INIT2 = 0x11,
@@ -168,16 +166,15 @@ enum ToServer
 	TOSERVER_NUM_MSG_TYPES = 0x53,
 };
 
-enum AuthMechanism
-{
+enum AuthMechanism {
 	AUTH_MECHANISM_NONE = 0,
 	AUTH_MECHANISM_LEGACY_PASSWORD = 1 << 0,
 	AUTH_MECHANISM_SRP = 1 << 1,
 	AUTH_MECHANISM_FIRST_SRP = 1 << 2,
 };
 
-int CreateClient(char* address, char* port);
-int Send(NetworkPacket &pkt);
-int Create_Packet(NetworkPacket &pkt, uint8_t channel, bool reliable);
-int Recv(NetworkPacket &pkt);
+int CreateClient(char *address, char *port);
+int Send(NetworkPacket & pkt);
+int Create_Packet(NetworkPacket & pkt, uint8_t channel, bool reliable);
+int Recv(NetworkPacket & pkt);
 int Disconnect();

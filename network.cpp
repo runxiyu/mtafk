@@ -39,7 +39,8 @@ struct sockaddr_in server;
 uint16_t seqnum_reliable[3];
 uint16_t seqnum_split;
 
-int Resolve(char* address, char* port, in_addr_t &ip) {
+int Resolve(char *address, char *port, in_addr_t & ip)
+{
 	int success;
 	struct addrinfo hints, *servinfo, *p;
 
@@ -48,21 +49,20 @@ int Resolve(char* address, char* port, in_addr_t &ip) {
 	hints.ai_family = AF_INET;
 	hints.ai_socktype = SOCK_DGRAM;
 
-	success = getaddrinfo(address, port , &hints, &servinfo);
+	success = getaddrinfo(address, port, &hints, &servinfo);
 
-	if (success != 0)
-	{
+	if (success != 0) {
 		printf("Resolve hostname: failed.\n");
 		return 1;
 	} else {
 		printf("Resolve hostname: success.\n");
 	}
 
-	for (p=servinfo; p != NULL; p = p->ai_next)
-	{
-		if ( ((struct sockaddr_in*) p->ai_addr)->sin_addr.s_addr != INADDR_ANY)
-		{
-			ip = ((struct sockaddr_in*) p->ai_addr)->sin_addr.s_addr;
+	for (p = servinfo; p != NULL; p = p->ai_next) {
+		if (((struct sockaddr_in *)p->ai_addr)->sin_addr.s_addr !=
+		    INADDR_ANY) {
+			ip = ((struct sockaddr_in *)p->ai_addr)->sin_addr.
+			    s_addr;
 			break;
 		}
 	}
@@ -70,12 +70,12 @@ int Resolve(char* address, char* port, in_addr_t &ip) {
 	return 0;
 };
 
-int CreateClient(char* address, char* port) {
+int CreateClient(char *address, char *port)
+{
 	int success, i;
 
 	sockfd = socket(AF_INET, SOCK_DGRAM, 0);
-	if (sockfd == -1)
-	{
+	if (sockfd == -1) {
 		printf("Error while creating socket!\n");
 		return 1;
 	}
@@ -94,8 +94,7 @@ int CreateClient(char* address, char* port) {
 
 	printf("Address: %s\n", address);
 
-	if (success != 1)
-	{
+	if (success != 1) {
 		printf("Direct conversion: failed.\n");
 		success = Resolve(address, port, ip);
 	} else {
@@ -103,8 +102,7 @@ int CreateClient(char* address, char* port) {
 		success = 0;
 	}
 
-	if (success != 0)
-	{
+	if (success != 0) {
 		printf("Unable to proccess address: %s\n", address);
 		return 2;
 	}
@@ -114,13 +112,13 @@ int CreateClient(char* address, char* port) {
 
 	server.sin_addr.s_addr = ip;
 	server.sin_family = AF_INET;
-	server.sin_port=htons(iport);
+	server.sin_port = htons(iport);
 
-	connect(sockfd, (sockaddr*)&server, sizeof(server));
+	connect(sockfd, (sockaddr *) & server, sizeof(server));
 
 	m_peer_id = PEER_ID_NONEXISTENT;
 
-	for (i=0;i<CHANNEL_COUNT;i++){
+	for (i = 0; i < CHANNEL_COUNT; i++) {
 		seqnum_reliable[i] = SEQNUM_INITIAL;
 	}
 	seqnum_split = SEQNUM_INITIAL;
@@ -128,17 +126,18 @@ int CreateClient(char* address, char* port) {
 	return 0;
 };
 
-int Send(NetworkPacket &pkt) {
+int Send(NetworkPacket & pkt)
+{
 	int len_sent = send(sockfd, pkt.get_data(), pkt.get_size(), 0);
-	if (len_sent >= 1)
-	{
+	if (len_sent >= 1) {
 		return 0;
 	} else {
 		return 1;
 	}
 };
 
-int Recv(NetworkPacket &pkt) {
+int Recv(NetworkPacket & pkt)
+{
 	int len;
 	char buf[512];
 
@@ -159,22 +158,24 @@ int Recv(NetworkPacket &pkt) {
 	return 0;
 };
 
-int Create_Packet(NetworkPacket &pkt, uint8_t channel, bool reliable) {
-	if (channel>=CHANNEL_COUNT)
+int Create_Packet(NetworkPacket & pkt, uint8_t channel, bool reliable)
+{
+	if (channel >= CHANNEL_COUNT)
 		return 1;
 
-	pkt << (uint32_t)PROTOCOL_ID << m_peer_id << channel;
+	pkt << (uint32_t) PROTOCOL_ID << m_peer_id << channel;
 
 	if (!reliable)
 		return 0;
 
-	pkt << (uint8_t)TYPE_RELIABLE << seqnum_reliable[channel];
+	pkt << (uint8_t) TYPE_RELIABLE << seqnum_reliable[channel];
 	seqnum_reliable[channel]++;
 
 	return 0;
 };
 
-int Disconnect() {
+int Disconnect()
+{
 	NetworkPacket pkt;
 	Create_Packet(pkt, 0, false);
 	pkt << (uint8_t) TYPE_CONTROL << (uint8_t) CONTROLTYPE_DISCO;

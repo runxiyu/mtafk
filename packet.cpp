@@ -19,37 +19,39 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 HIGHLY MODIFIED FROM THE ORIGINAL CODE
 */
 
-
 #include <cstring>
 
 #include "packet.h"
 
-NetworkPacket::NetworkPacket(){
+NetworkPacket::NetworkPacket()
+{
 };
 
-NetworkPacket::~NetworkPacket(){
+NetworkPacket::~NetworkPacket()
+{
 	free(m_data);
 };
 
-NetworkPacket& NetworkPacket::operator<<(uint64_t src){
-	char* temp = (char*)realloc(m_data, m_datasize+sizeof(uint64_t));
-	if (temp == 0)
-	{
+NetworkPacket & NetworkPacket::operator<<(uint64_t src)
+{
+	char *temp = (char *)realloc(m_data, m_datasize + sizeof(uint64_t));
+	if (temp == 0) {
 		m_error = true;
 		return *this;
 	}
 
 	m_data = temp;
 	src = htonll(src);
-	memcpy(m_data+m_datasize, &src, sizeof(uint64_t));
+	memcpy(m_data + m_datasize, &src, sizeof(uint64_t));
 
 	m_datasize += sizeof(uint64_t);
 
 	return *this;
 };
 
-NetworkPacket& NetworkPacket::operator>>(uint64_t &dst){
-	memcpy(&dst, m_data+m_read_offset, sizeof(uint64_t));
+NetworkPacket & NetworkPacket::operator>>(uint64_t & dst)
+{
+	memcpy(&dst, m_data + m_read_offset, sizeof(uint64_t));
 	dst = ntohll(dst);
 
 	m_read_offset += sizeof(uint64_t);
@@ -57,25 +59,26 @@ NetworkPacket& NetworkPacket::operator>>(uint64_t &dst){
 	return *this;
 };
 
-NetworkPacket& NetworkPacket::operator<<(uint32_t src){
-	char* temp = (char*)realloc(m_data, m_datasize+sizeof(uint32_t));
-	if (temp == 0)
-	{
+NetworkPacket & NetworkPacket::operator<<(uint32_t src)
+{
+	char *temp = (char *)realloc(m_data, m_datasize + sizeof(uint32_t));
+	if (temp == 0) {
 		m_error = true;
 		return *this;
 	}
 
 	m_data = temp;
 	src = htonl(src);
-	memcpy(m_data+m_datasize, &src, sizeof(uint32_t));
+	memcpy(m_data + m_datasize, &src, sizeof(uint32_t));
 
 	m_datasize += sizeof(uint32_t);
 
 	return *this;
 };
 
-NetworkPacket& NetworkPacket::operator>>(uint32_t &dst){
-	memcpy(&dst, m_data+m_read_offset, sizeof(uint32_t));
+NetworkPacket & NetworkPacket::operator>>(uint32_t & dst)
+{
+	memcpy(&dst, m_data + m_read_offset, sizeof(uint32_t));
 	dst = ntohl(dst);
 
 	m_read_offset += sizeof(uint32_t);
@@ -83,25 +86,26 @@ NetworkPacket& NetworkPacket::operator>>(uint32_t &dst){
 	return *this;
 };
 
-NetworkPacket& NetworkPacket::operator<<(uint16_t src){
-	char* temp = (char*)realloc(m_data, m_datasize+sizeof(uint16_t));
-	if (temp == 0)
-	{
+NetworkPacket & NetworkPacket::operator<<(uint16_t src)
+{
+	char *temp = (char *)realloc(m_data, m_datasize + sizeof(uint16_t));
+	if (temp == 0) {
 		m_error = true;
 		return *this;
 	}
 
 	m_data = temp;
 	src = htons(src);
-	memcpy(m_data+m_datasize, &src, sizeof(uint16_t));
+	memcpy(m_data + m_datasize, &src, sizeof(uint16_t));
 
 	m_datasize += sizeof(uint16_t);
 
 	return *this;
 };
 
-NetworkPacket& NetworkPacket::operator>>(uint16_t &dst){
-	memcpy(&dst, m_data+m_read_offset, sizeof(uint16_t));
+NetworkPacket & NetworkPacket::operator>>(uint16_t & dst)
+{
+	memcpy(&dst, m_data + m_read_offset, sizeof(uint16_t));
 	dst = ntohs(dst);
 
 	m_read_offset += sizeof(uint16_t);
@@ -109,104 +113,106 @@ NetworkPacket& NetworkPacket::operator>>(uint16_t &dst){
 	return *this;
 };
 
-NetworkPacket& NetworkPacket::operator<<(uint8_t src){
-	char* temp = (char*)realloc(m_data, m_datasize+sizeof(uint8_t));
-	if (temp == 0)
-	{
+NetworkPacket & NetworkPacket::operator<<(uint8_t src)
+{
+	char *temp = (char *)realloc(m_data, m_datasize + sizeof(uint8_t));
+	if (temp == 0) {
 		m_error = true;
 		return *this;
 	}
 
 	m_data = temp;
-	memcpy(m_data+m_datasize, &src, sizeof(uint8_t));
+	memcpy(m_data + m_datasize, &src, sizeof(uint8_t));
 
 	m_datasize += sizeof(uint8_t);
 
 	return *this;
 };
 
-NetworkPacket& NetworkPacket::operator>>(uint8_t &dst){
-	memcpy(&dst, m_data+m_read_offset, sizeof(uint8_t));
+NetworkPacket & NetworkPacket::operator>>(uint8_t & dst)
+{
+	memcpy(&dst, m_data + m_read_offset, sizeof(uint8_t));
 
 	m_read_offset += sizeof(uint8_t);
 
 	return *this;
 };
 
-NetworkPacket& NetworkPacket::operator<<(char* src){
+NetworkPacket & NetworkPacket::operator<<(char *src)
+{
 	uint16_t len = strlen(src);
-	char* temp = (char*)realloc(m_data, m_datasize+sizeof(len)+len);
-	if (temp == 0)
-	{
+	char *temp = (char *)realloc(m_data, m_datasize + sizeof(len) + len);
+	if (temp == 0) {
 		m_error = true;
 		return *this;
 	}
 
 	len = htons(len);
 	m_data = temp;
-	memcpy(m_data+m_datasize, &len, sizeof(len));
-	m_datasize+=sizeof(len);
+	memcpy(m_data + m_datasize, &len, sizeof(len));
+	m_datasize += sizeof(len);
 
 	len = ntohs(len);
-	memcpy(m_data+m_datasize, src, len);
+	memcpy(m_data + m_datasize, src, len);
 	m_datasize += len;
 
 	return *this;
 };
 
-NetworkPacket& NetworkPacket::operator>>(char* dst){
+NetworkPacket & NetworkPacket::operator>>(char *dst)
+{
 	uint8_t null_char = 0;
 
 	uint16_t len;
-	memcpy(&len, m_data+m_read_offset, sizeof(len));
+	memcpy(&len, m_data + m_read_offset, sizeof(len));
 	m_read_offset += sizeof(len);
 
 	len = ntohs(len);
 
-	memcpy(dst, m_data+m_read_offset, len);
+	memcpy(dst, m_data + m_read_offset, len);
 	m_read_offset += len;
 
-	memcpy(dst+len, &null_char, sizeof(uint8_t));
+	memcpy(dst + len, &null_char, sizeof(uint8_t));
 
 	return *this;
 };
 
-bool NetworkPacket::add_char(char* src, uint16_t len)
+bool NetworkPacket::add_char(char *src, uint16_t len)
 {
-	char* temp = (char*)realloc(m_data, m_datasize+sizeof(len)+len);
-	if (temp == 0)
-	{
+	char *temp = (char *)realloc(m_data, m_datasize + sizeof(len) + len);
+	if (temp == 0) {
 		m_error = true;
 		return false;
 	}
 
 	m_data = temp;
 	len = htons(len);
-	memcpy(m_data+m_datasize, &len, sizeof(len));
-	m_datasize+=sizeof(len);
+	memcpy(m_data + m_datasize, &len, sizeof(len));
+	m_datasize += sizeof(len);
 	len = ntohs(len);
-	memcpy(m_data+m_datasize, src, len);
+	memcpy(m_data + m_datasize, src, len);
 	m_datasize += len;
 
 	return true;
 };
 
-bool NetworkPacket::get_char(char* dst, uint16_t &len)
+bool NetworkPacket::get_char(char *dst, uint16_t & len)
 {
-	memcpy(&len, m_data+m_read_offset, sizeof(uint16_t));
+	memcpy(&len, m_data + m_read_offset, sizeof(uint16_t));
 	len = ntohs(len);
 	m_read_offset += sizeof(uint16_t);
 
-	memcpy(dst, m_data+m_read_offset, len);
+	memcpy(dst, m_data + m_read_offset, len);
 	m_read_offset += len;
 
 	return true;
 };
 
-bool NetworkPacket::reset(){
+bool NetworkPacket::reset()
+{
 	free(m_data);
 
-	m_data = (char*)malloc(0);
+	m_data = (char *)malloc(0);
 
 	m_datasize = 0;
 	m_read_offset = 0;
@@ -215,9 +221,10 @@ bool NetworkPacket::reset(){
 	return true;
 };
 
-bool NetworkPacket::set_data(char* data, uint32_t len){
-	char* temp;
-	temp = (char*)malloc(len);
+bool NetworkPacket::set_data(char *data, uint32_t len)
+{
+	char *temp;
+	temp = (char *)malloc(len);
 	if (temp == 0)
 		return false;
 
