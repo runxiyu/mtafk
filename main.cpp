@@ -32,9 +32,15 @@ int main(int argc, char **argv)
 	int success;
 	if (argc <= 4) {
 		printf
-		    ("Too few arguments! Expected 4, got %d\nUsage: %s <IP/hostname> <port> <username> <password>\n",
+		    ("Too few arguments! Expected 4, got %d\nUsage: %s <IP/hostname> <port> <username> <password-envvar>\n",
 		     argc - 1, argv[0]);
 		exit(1);
+	}
+
+	char *pwd = getenv(argv[4]);
+	if (pwd == NULL) {
+		printf("Error: \"%s\" not in environ\n", argv[4]);
+		return 120;
 	}
 
 	uint16_t port;
@@ -266,9 +272,10 @@ int main(int argc, char **argv)
 
 	struct SRPUser *m_auth_data;
 
+
 	m_auth_data =
 	    srp_user_new(SRP_SHA256, SRP_NG_2048, argv[3], uname_lower,
-			 (const unsigned char *)argv[4], strlen(argv[4]), NULL,
+			 (const unsigned char *)pwd, strlen(pwd), NULL,
 			 NULL);
 
 	char *bytes_A = 0;
