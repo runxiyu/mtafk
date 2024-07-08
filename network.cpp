@@ -61,8 +61,8 @@ int Resolve(char *address, char *port, in_addr_t & ip)
 	for (p = servinfo; p != NULL; p = p->ai_next) {
 		if (((struct sockaddr_in *)p->ai_addr)->sin_addr.s_addr !=
 		    INADDR_ANY) {
-			ip = ((struct sockaddr_in *)p->ai_addr)->sin_addr.
-			    s_addr;
+			ip = ((struct sockaddr_in *)p->ai_addr)->
+			    sin_addr.s_addr;
 			break;
 		}
 	}

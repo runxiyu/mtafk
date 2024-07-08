@@ -229,7 +229,7 @@ int main(int argc, char **argv)
 				printf("auth_user: %s\n", auth_user);
 
 				if (!(auth_methods & AUTH_MECHANISM_SRP)
-				    || server_ser_ver < MIN_SER_VER
+				    // || server_ser_ver < MIN_SER_VER // TODO
 				    || dep_net_comp_mode !=
 				    NETPROTO_COMPRESSION_MODE
 				    || dep_prot_ver < MIN_PROTOCOL_VERSION) {
@@ -274,10 +274,10 @@ int main(int argc, char **argv)
 	char *bytes_A = 0;
 	size_t len_A = 0;
 
-	SRP_Result res =
-	    srp_user_start_authentication((struct SRPUser *)m_auth_data, NULL,
-					  NULL, 0, (unsigned char **)&bytes_A,
-					  &len_A);
+	// SRP_Result res =
+	srp_user_start_authentication((struct SRPUser *)m_auth_data, NULL,
+				      NULL, 0, (unsigned char **)&bytes_A,
+				      &len_A);
 
 	Create_Packet(pkt, 0, false);
 	pkt << (uint8_t) TYPE_ORIGINAL << (uint16_t) TOSERVER_SRP_BYTES_A;

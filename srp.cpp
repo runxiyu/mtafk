@@ -78,8 +78,8 @@ void (*srp_free)(void *) = &free;
 
 // clang-format off
 void srp_set_memory_functions(void *(*new_srp_alloc)(size_t),
-			      void * (*new_srp_realloc)(void *, size_t),
-			      void(*new_srp_free)(void *))
+			      void *(*new_srp_realloc)(void *, size_t),
+			      void (*new_srp_free)(void *))
 {
 	srp_alloc = new_srp_alloc;
 	srp_realloc = new_srp_realloc;
