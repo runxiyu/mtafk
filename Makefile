@@ -1,7 +1,7 @@
 .PHONY: all
 .PHONY: clean
 
-CFLAGS = -Ofast -Wall -Wextra -std=c++23
+CFLAGS += -Ofast -Wall -Wextra -std=c++23
 
 all: mtafk
 
